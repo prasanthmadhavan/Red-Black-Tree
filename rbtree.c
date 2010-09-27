@@ -12,18 +12,16 @@ Properties 4 and 5 together guarantee that no path in the tree is more than abou
 #include <assert.h>
 #include <stdlib.h>
 
-
-
 node grandparent(node n) {
     assert (n != NULL);
-    assert (n->parent != NULL); /* Not the root node */
-    assert (n->parent->parent != NULL); /* Not child of root */
+    assert (n->parent != NULL);
+    assert (n->parent->parent != NULL);
     return n->parent->parent;
 }
 
 node sibling(node n) {
     assert (n != NULL);
-    assert (n->parent != NULL); /* Root node has no sibling */
+    assert (n->parent != NULL);
     if (n == n->parent->left)
         return n->parent->right;
     else
@@ -32,15 +30,14 @@ node sibling(node n) {
 
 node uncle(node n) {
     assert (n != NULL);
-    assert (n->parent != NULL); /* Root node has no uncle */
-    assert (n->parent->parent != NULL); /* Children of root have no uncle */
+    assert (n->parent != NULL);
+    assert (n->parent->parent != NULL);
     return sibling(n->parent);
 }
 
 void verify_properties(rbtree t) {
     property_1(t->root);
     property_2(t->root);
-    /* Property 3 is implicit */
     property_4(t->root);
     property_5(t->root);
 }
@@ -177,7 +174,6 @@ void rbtree_insert(rbtree t, void* key, compare_func compare) {
         while (1) {
             int comp_result = compare(key, n->key);
             if (comp_result == 0) {
-                /* inserted_node isn't going to be used, don't leak it */
                 free (inserted_node);
                 return;
             } else if (comp_result < 0) {
@@ -212,7 +208,7 @@ void insert_case1(rbtree t, node n) {
 
 void insert_case2(rbtree t, node n) {
     if (node_color(n->parent) == BLACK)
-        return; /* Tree is still valid */
+        return;
     else
         insert_case3(t, n);
 }
@@ -253,9 +249,8 @@ void insert_case5(rbtree t, node n) {
 void rbtree_delete(rbtree t, void* key, compare_func compare) {
     node child;
     node n = lookup_node(t, key, compare);
-    if (n == NULL) return;  /* Key not found, do nothing */
+    if (n == NULL) return; 
     if (n->left != NULL && n->right != NULL) {
-        /* Copy key/value from predecessor and then delete it instead */
         node pred = maximum_node(n->left);
         n->key   = pred->key;
         n = pred;

@@ -1,5 +1,3 @@
-//#ifndef _RBTREE_H_
-
 enum rbtree_node_color { RED, BLACK };
 
 typedef struct rbtree_node_t {
@@ -40,6 +38,8 @@ static node lookup_node(rbtree t, void* key, compare_func compare);
 static void rotate_left(rbtree t, node n);
 static void rotate_right(rbtree t, node n);
 
+//the cases for insertion and deletion (the conditions tobe checked)
+
 static void replace_node(rbtree t, node oldn, node newn);
 static void insert_case1(rbtree t, node n);
 static void insert_case2(rbtree t, node n);
@@ -53,6 +53,4 @@ static void delete_case3(rbtree t, node n);
 static void delete_case4(rbtree t, node n);
 static void delete_case5(rbtree t, node n);
 static void delete_case6(rbtree t, node n);
-
-//#endif
 

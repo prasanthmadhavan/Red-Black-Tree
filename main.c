@@ -2,10 +2,11 @@
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
+#define stepspace  4
 
 static int compare_int(void* left, void* right);
 static void print_tree(rbtree t);
-static void print_tree_helper(rbtree_node n, int indent);
+static void print_tree_helper(rbtree_node n, int step);
 
 int compare_int(void* leftp, void* rightp) {
     int left = (int)leftp;
@@ -20,32 +21,31 @@ int compare_int(void* leftp, void* rightp) {
     }
 }
 
-#define INDENT_STEP  4
 
-void print_tree_helper(rbtree_node n, int indent);
+void print_tree_helper(rbtree_node n, int step);
 
 void print_tree(rbtree t) {
     print_tree_helper(t->root, 0);
     puts("");
 }
 
-void print_tree_helper(rbtree_node n, int indent) {
+void print_tree_helper(rbtree_node n, int step) {
     int i;
     if (n == NULL) {
         fputs("<empty tree>", stdout);
         return;
     }
     if (n->right != NULL) {
-        print_tree_helper(n->right, indent + INDENT_STEP);
+        print_tree_helper(n->right, step + stepspace);
     }
-    for(i=0; i<indent; i++)
+    for(i=0; i<step; i++)
         fputs(" ", stdout);
     if (n->color == BLACK)
         printf("%d\n", (int)n->key);
     else
         printf("<%d>\n", (int)n->key);
     if (n->left != NULL) {
-        print_tree_helper(n->left, indent + INDENT_STEP);
+        print_tree_helper(n->left, step + stepspace);
     }
 }
 
@@ -89,14 +89,13 @@ postorder(struct rbtree_node_t *ptr)
 
 
 
-int main()
+main()
 {
     int i,j, x;
-  //  rbtree_node n = struct rbtree->root;
     rbtree t = rbtree_create();
     print_tree(t);
 while(1){
-printf("What do u want to do??\n");
+printf("\nWhat do u want to do??\n");
 printf("1.Insert\n");
 printf("2.Delete\n");
 printf("3.Display the Tree\n");
@@ -109,45 +108,41 @@ scanf("%d",&j);
 switch(j)
 {
 	case 1:
-		printf("Enter The data tobe Inserted:");
+		printf("\nEnter The data tobe Inserted:");
 		scanf("%d",&x);
-		printf("Inserting %d\n\n",x);
+		printf("\n___________Inserting___________\n\n");
 		rbtree_insert(t, (void*)x, compare_int);
-//		print_tree(t);
 		break;
 	case 2:
-		printf("Enter The data tobe Deleted:");
+		printf("\nEnter The data tobe Deleted:");
 		scanf("%d",&x);
 		rbtree_delete(t,(void*)x,compare_int);
-//		print_tree(t);
 		break;
 	case 3:
 		print_tree(t);
 		break;
 	case 4:
+		printf("\n");
 		inorder(t->root);
 		printf("\n");
 		break;
 	case 5:
+		printf("\n");
 		preorder(t->root);
 		printf("\n");
 		break;
 	case 6:
+		printf("\n");
 		postorder(t->root);
 		printf("\n");
 		break;		
 	case 7:
+		printf("\nExiting......");
 		exit(1);
 		break;
 	default:
 		printf("Please Enter a valid number!!\n");
 		break;
-//	assert(rbtree_lookup(t, (void*)x, compare_int) == (void*)y);
-//	print_tree(t);
-//	rbtree_delete(t,(void*) 83, compare_int);
-//	print_tree(t);
-
 }
 }
-return 0;
 }
